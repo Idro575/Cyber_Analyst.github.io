@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Analyst</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav a:hover {
+            color: #00a8ff;
+        }
+
+        /* Banner Section with Background */
+        .banner {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: white;
+            overflow: hidden;
+        }
+
+        /* Background Image with Overlay */
+        .banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/Banner1.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            filter: brightness(2);
+            z-index: -2;
+        }
+
+        /* Optional: Add a gradient overlay */
+        .banner::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 100%);
+            z-index: -1;
+        }
+
+        .banner-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            padding: 0 20px;
+        }
+
+        .profile-image {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+        }
+
+        .banner-text {
+            max-width: 600px;
+        }
+
+        .banner-text h1 {
+            font-size: clamp(2em, 5vw, 3.5em);
+            margin-bottom: 20px;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .banner-text p {
+            font-size: clamp(1em, 2vw, 1.3em);
+            color: #f0f0f0;
+            line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        /* About Section */
+        .about {
+            padding: 100px 20px;
+            background-color: #ffffff;
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about h2 {
+            font-size: clamp(2em, 4vw, 2.5em);
+            margin-bottom: 30px;
+            color: #333;
+            text-align: center;
+        }
+
+        .about p {
+            font-size: clamp(1em, 1.5vw, 1.1em);
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        /* Portfolio Section */
+        .portfolio {
+            padding: 100px 20px;
+            background-color: #f8f9fa;
+        }
+
+        .portfolio h2 {
+            font-size: clamp(2em, 4vw, 2.5em);
+            margin-bottom: 50px;
+            color: #333;
+            text-align: center;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .portfolio-item {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+        }
+
+        .portfolio-item-content {
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .portfolio-item h3 {
+            font-size: clamp(1.1em, 2vw, 1.3em);
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .portfolio-item p {
+            color: #666;
+            line-height: 1.6;
+            font-size: clamp(0.9em, 1.5vw, 1em);
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            padding: 60px 20px 40px;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            padding-bottom: 40px;
+        }
+
+        .footer-section {
+            padding: 0 20px;
+        }
+
+        .footer-section h3 {
+            color: #ffffff;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 30px;
+            height: 2px;
+            background-color: #00a8ff;
+        }
+
+        .footer-section p {
+            color: #b3b3b3;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .footer-section p a {
+            color: #b3b3b3;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section p a:hover {
+            color: #00a8ff;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: #00a8ff;
+            transform: translateY(-3px);
+        }
+
+        .contact-info {
+            margin-top: 15px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav {
+                padding: 15px;
+            }
+            
+            .nav ul {
+                gap: 20px;
+            }
+
+            .banner-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 30px;
+            }
+
+            .profile-image {
+                width: min(200px, 50vw);
+                height: min(200px, 50vw);
+            }
+
+            .portfolio-item img {
+                aspect-ratio: 16/10;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 30px;
+            }
+
+            .footer-section h3::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav ul {
+                gap: 15px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+        </ul>
+    </nav>
+
+    <!-- Banner Section -->
+    <section id="home" class="banner">
+        <div class="banner-content">
+            <img src="images/Profile Photo.jpg" alt="" class="profile-image">
+            <div class="banner-text">
+                <h1>Hello, I'm Idriss Jama</h1>
+                <p>Skilled with Phishing Analysis, Digital Forensics, Incident Responce, Endpoint Security, Vulnerability Assessment, SIEM, Python, SQL, Linux, Data Warehousing, Analytical Skills. Welcome to my portfolio!</p>
+                <h2>Never asked for this | Just curious...</h2>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/idriss-jama-soc/" target="_blank" aria-label="LinkedIn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                            <rect x="2" y="9" width="4" height="12"></rect>
+                            <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
+                    </a>
+                    <a href="https://github.com/Idro575" target="_blank" aria-label="GitHub">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                        </svg>
+                    </a>
+                </div>
+                
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="about-content">
+            <h2>About Me</h2>
+            
+            <p>Hi, I am a Security Operations professional with hands-on in SIEM implementation, 
+                incident response, and security monitoring. 
+                Certified in CompTIA Security+, Blue Team Level 1, and Google Cybersecurity, with hands-on experience in Wazuh SIEM deployment, 
+                threat detection, and security analysis using Splunk.</p>
+            
+                <p><strong>Technical Focus:</strong>
+                <li>Security Information and Event Management (SIEM)</li>
+                <li>Incident Response & Investigation</li>
+                <li>Threat Detection & Analysis</li>
+                <li>Security Tool Implementation</li>
+                <li>Python & SQL for Analytics</li>
+            .</p>
+            <p><strong>Certifications & Training:</strong>
+
+                <style>
+                    .cert-list li a {
+                        text-decoration: none;
+                        color: #333;
+                        transition: color 0.3s ease;
+                        position: relative;
+                    }
+                
+                    .cert-list li a:hover {
+                        color: #0066cc;
+                    }
+                
+                    .cert-list li a::after {
+                        content: '';
+                        position: absolute;
+                        width: 100%;
+                        height: 2px;
+                        bottom: -2px;
+                        left: 0;
+                        background-color: #0066cc;
+                        transform: scaleX(0);
+                        transform-origin: bottom right;
+                        transition: transform 0.3s ease;
+                    }
+                
+                    .cert-list li a:hover::after {
+                        transform: scaleX(1);
+                        transform-origin: bottom left;
+                    }
+                </style>
+                
+                <ul class="cert-list">
+                    <li><a href="https://www.credly.com/earner/earned/badge/e7bb9fa6-6981-431f-8666-f5fa04d1c5ab" target="_blank">CompTIA Security+</a></li>
+                    <li><a href="https://www.credly.com/earner/earned/badge/ef3c96a7-c034-4387-a23d-b118f1aa5d72" target="_blank">Blue Team Level 1</a></li>
+                    <li><a href="https://www.credly.com/earner/earned/badge/5a350c71-1084-40b6-8790-41cae4f669f4" target="_blank">Google Cybersecurity Professional</a></li>
+                </ul>
+            .</p>
+            <p>Known for exceptional problem-solving abilities and dedication to continuous learning, demonstrated by maintaining a rigorous daily study routine for three years while managing other responsibilities. Based in the UK with eligibility for security clearance.</p>
+            <p>Open to Security Analyst and SOC Analyst opportunities. Let's connect to discuss how my security expertise can benefit your organization.</p>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+<section id="portfolio" class="portfolio">
+    <h2>My Portfolio</h2>
+    <div class="portfolio-grid">
+        <!-- Portfolio Item 1 -->
+        <a href="https://www.youtube.com/watch?v=jQzFxor1HTE&t=265s" target="_blank" class="portfolio-item-link">
+            <div class="portfolio-item">
+                <img src="images/Youtube vids.jpg" alt="Project 1">
+                <div class="portfolio-item-content">
+                    <h3>Wazuh OVA Installation <svg class="github-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></h3>
+                    <p>This a quick video demo on how to install wazuh.</p>
+                </div>
+            </div>
+        </a>
+
+        <!-- Portfolio Item 2 -->
+        <a href="https://www.youtube.com/watch?v=t7gKe3GIRdg&t=117s" target="_blank" class="portfolio-item-link">
+            <div class="portfolio-item">
+                <img src="images/Youtube vids.jpg" alt="Project 2">
+                <div class="portfolio-item-content">
+                    <h3>Agent Deployment <svg class="github-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></h3>
+                    <p>This a video demo on how to deploy an agent/host.</p>
+                </div>
+            </div>
+        </a>
+        
+        
+        <!-- Portfolio Item 3 -->
+        <a href="https://github.com/Idro575/Wazuh-Event-management-Installation/blob/main/Wazuh%20OVA%20Installation.pdf" target="_blank" class="portfolio-item-link">
+            <div class="portfolio-item">
+                <img src="images/Wazuh_black.png" alt="Project 3">
+                <div class="portfolio-item-content">
+                    <h3>Wazuh OVA Installation  <svg class="github-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></h3>
+                    <p>This a quick Installation on how to install wazuh to monitor your own envirment.</p>
+                </div>
+            </div>
+        </a>
+
+         <!-- Portfolio Item 3 -->
+         <a href="https://github.com/Idro575/Wazuh-Agents_Installation/blob/main/Wazuh-Agent%20Installation.pdf" target="_blank" class="portfolio-item-link">
+            <div class="portfolio-item">
+                <img src="images/Wazuh.jpeg" alt="Project 4">
+                <div class="portfolio-item-content">
+                    <h3>Agent Deployment<svg class="github-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></h3>
+                    <p>This is a on how to deploy an agent /host for monitoring purpose.</p>
+                </div>
+            </div>
+        </a>
+        
+         <!-- Portfolio Item 3 -->
+         <a href="https://github.com/Idro575/Splunk-Investigation/blob/main/Splunk%202%20%EF%80%A7%20100%20series%20.pdf" target="_blank" class="portfolio-item-link">
+            <div class="portfolio-item">
+                <img src="images/splunk-black.png" alt="Project 5">
+                <div class="portfolio-item-content">
+                    <h3>TryHackme - Splunk 2  100 series <svg class="github-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></h3>
+                    <p>This an investigation when an employee visited a competitor website in an intention to leak information .</p>
+                </div>
+            </div>
+        </a>
+
+         <!-- Portfolio Item 3 -->
+         <a href="https://github.com/your-username/project-3" target="_blank" class="portfolio-item-link">
+            <div class="portfolio-item">
+                <img src="images/splunk-black.png" alt="Project 6">
+                <div class="portfolio-item-content">
+                    <h3>TryHackme - Splunk 2  200 series questions<svg class="github-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></h3>
+                    <p>This another Investigation with Splunk.</p>
+                </div>
+            </div>
+        </a>
+
+         <!-- Portfolio Item 3 -->
+         <a href="https://github.com/Idro575/Splunk-Investigation/blob/main/TryHackme%20-%20Investigating%20with%20Splunk.pdf" target="_blank" class="portfolio-item-link">
+            <div class="portfolio-item">
+                <img src="images/splunk-black.png" alt="Project 7">
+                <div class="portfolio-item-content">
+                    <h3>TryHackme - Investigating with Splunk <svg class="github-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></h3>
+                    <p> This is an investigation when a adversary created a backdoor to access the network.</p>
+                </div>
+            </div>
+        </a>
+
+         <!-- Portfolio Item 3 -->
+         <a href="https://github.com/Idro575/CyberSecurity_Projects" target="_blank" class="portfolio-item-link">
+            <div class="portfolio-item">
+                <img src="images/pexels-pixabay-60504.jpg" alt="Project 8">
+                <div class="portfolio-item-content">
+                    <h3>Cybersecurity Projects <svg class="github-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></h3>
+                    <p>This is a combine 8 projects where 6 are Phishing Emails | Linux | Python.</p>
+                </div>
+            </div>
+        </a>
+
+         <!-- Portfolio Item 3 -->
+         <a href="https://github.com/Idro575/networking-CPT/blob/main/CPT-Projects.pdf" target="_blank" class="portfolio-item-link">
+            <div class="portfolio-item">
+                <img src="images/Cisco-Packet-Tracer-CPT.png" alt="Project 9">
+                <div class="portfolio-item-content">
+                    <h3>Network Architecture <svg class="github-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></h3>
+                    <p>This is a demo Network Architecture designed with CPT.</p>
+                </div>
+            </div>
+        </a>
+
+        <!-- Portfolio Item 3 -->
+        <a href="https://github.com/Idro575/mySQL_Project/blob/main/Sql_Project_1.sql" target="_blank" class="portfolio-item-link">
+            <div class="portfolio-item">
+                <img src="images/SQL (2).png" alt="Project 8">
+                <div class="portfolio-item-content">
+                    <h3>SQL Projects <svg class="github-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></h3>
+                    <p>A new HR mangement is investigating the dissatisfaction of former employees.</p>
+                </div>
+            </div>
+        </a> 
+        <!-- Portfolio Item 3 -->
+        <a href="https://github.com/Idro575/Python_web_scrapping/blob/main/web_Scrap_html_to_Dataframe.ipynb" target="_blank" class="portfolio-item-link">
+            <div class="portfolio-item">
+                <img src="images/Python.logo.png" alt="Project 8">
+                <div class="portfolio-item-content">
+                    <h3>Python Webscrapping <svg class="github-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></h3>
+                    <p>This is my early year scrapping data from Wiki with python.</p>
+                </div>
+            </div>
+        </a>
+
+
+    </div>
+</section>
+
+<!-- Add these styles to your existing CSS -->
+<style>
+.portfolio-item-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.portfolio-item-link:hover {
+    transform: translateY(-5px);
+}
+
+.portfolio-item {
+    height: 100%;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.portfolio-item:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.github-icon {
+    vertical-align: middle;
+    margin-left: 8px;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.portfolio-item:hover .github-icon {
+    opacity: 1;
+}
+</style>
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Me</h3>
+                <p>A dedicated Cybersecurity Analyst committed to driving innovative solutions and achieving top-notch security outcomes. .</p>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/idriss-jama-soc/" target="_blank" aria-label="LinkedIn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                            <rect x="2" y="9" width="4" height="12"></rect>
+                            <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
+                    </a>
+                    <a href="https://github.com/Idro575" target="_blank" aria-label="GitHub">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Idriss Jama. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
